@@ -15,20 +15,27 @@ export default function BlogPage() {
     const fetchPosts = async () => {
         try {
             const response = await fetch('/api/posts')
+            if (!response.ok) {
+                throw new Error('Failed to fetch posts')
+            }
             const data = await response.json()
-            setPosts(data)
+            // Ensure data is an array even if API returns error
+            setPosts(Array.isArray(data) ? data : [])
         } catch (error) {
             console.error('Fehler:', error)
+            setPosts([])  // Set empty array on error
         } finally {
             setLoading(false)
         }
     }
 
-    // Client-seitige Suche
-    const filteredPosts = posts.filter(post =>
-        post.title.toLowerCase().includes(filter.toLowerCase()) ||
-        post.content.toLowerCase().includes(filter.toLowerCase())
-    )
+    // Client-seitige Suche with null checks
+    const filteredPosts = posts.filter(post => {
+        if (!post || !post.title || !post.content) return false
+        const searchTerm = filter.toLowerCase()
+        return post.title.toLowerCase().includes(searchTerm) ||
+               post.content.toLowerCase().includes(searchTerm)
+    })
 
     if (loading) return <div>Lade Blog-Posts...12345 Halloo</div>
 
@@ -55,7 +62,7 @@ export default function BlogPage() {
 
                         <div className="text-gray-600 text-sm mb-4">
                             von {post.author?.name || 'Unbekannt'} •
-                            {new Date(post.publishedAt).toLocaleDateString('de-DE')}
+                            {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString('de-DE') : 'Nicht veröffentlicht'}
                         </div>
 
                         <p className="mb-4">{post.summary}</p>

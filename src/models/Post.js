@@ -11,7 +11,8 @@ const postSchema = new mongoose.Schema({
     slug: {
         type: String,
         unique: true,
-        lowercase: true
+        lowercase: true,
+        index: true  // Add index for better query performance
     },
 
     content: {
@@ -68,6 +69,8 @@ postSchema.statics.findPublished = function() {
 
 // Virtuelle Eigenschaften (werden nicht gespeichert)
 postSchema.virtual('summary').get(function() {
+    if (!this.content) return ''
+    if (this.content.length <= 100) return this.content
     return this.content.substring(0, 100) + '...'
 })
 
