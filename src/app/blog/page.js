@@ -41,7 +41,15 @@ export default function BlogPage() {
 
     return (
         <div className="p-8">
-            <h1 className="text-3xl font-bold mb-6">Blog</h1>
+            <div className="flex justify-between items-center mb-6">
+                <h1 className="text-3xl font-bold">Blog</h1>
+                <a
+                    href="/blog/write"
+                    className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
+                >
+                    ✏️ Neuer Post
+                </a>
+            </div>
 
             {/* Suchfeld */}
             <input
