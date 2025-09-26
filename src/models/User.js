@@ -18,6 +18,13 @@ const userSchema = new mongoose.Schema({
         match: [/^\S+@\S+\.\S+$/, 'Bitte gültige Email eingeben']
     },
 
+    password: {
+        type: String,
+        required: [true, 'Passwort ist erforderlich'],
+        minlength: [6, 'Passwort muss mindestens 6 Zeichen haben'],
+        select: false  // Passwort wird standardmäßig nicht zurückgegeben
+    },
+
     // Optionale Felder
     alter: {
         type: Number,

@@ -2,6 +2,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
 
 export default function BlogPage() {
     const [posts, setPosts] = useState([])  // Immer mit [] initialisieren
@@ -43,12 +44,12 @@ export default function BlogPage() {
         <div className="p-8">
             <div className="flex justify-between items-center mb-6">
                 <h1 className="text-3xl font-bold">Blog</h1>
-                <a
+                <Link
                     href="/blog/write"
                     className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
                 >
                     ✏️ Neuer Post
-                </a>
+                </Link>
             </div>
 
             {/* Suchfeld */}
@@ -85,9 +86,9 @@ export default function BlogPage() {
 
                         <div className="flex justify-between items-center">
                             <span>❤️ {post.likes} Likes</span>
-                            <a href={`/blog/${post.slug}`} className="text-blue-500">
+                            <Link href={`/blog/${post.slug}`} className="text-blue-500">
                                 Weiterlesen →
-                            </a>
+                            </Link>
                         </div>
                     </article>
                 ))}
