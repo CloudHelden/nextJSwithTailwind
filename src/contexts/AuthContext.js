@@ -11,7 +11,13 @@ export function AuthProvider({ children }) {
   const router = useRouter();
 
   useEffect(() => {
-    checkAuth();
+    // Only check auth if not on login/register pages
+    const path = window.location.pathname;
+    if (!path.includes('/login') && !path.includes('/register')) {
+      checkAuth();
+    } else {
+      setLoading(false);
+    }
   }, []);
 
   const checkAuth = async () => {
@@ -43,12 +49,14 @@ export function AuthProvider({ children }) {
 
       if (response.ok) {
         setUser(data.user);
-        router.push('/dashboard');
+        // Use window.location for more reliable navigation
+        window.location.href = '/dashboard';
         return { success: true };
       } else {
-        return { success: false, error: data.error };
+        return { success: false, error: data.error || 'Login fehlgeschlagen' };
       }
     } catch (error) {
+      console.error('Login error:', error);
       return { success: false, error: 'Netzwerkfehler' };
     }
   };
@@ -65,7 +73,8 @@ export function AuthProvider({ children }) {
 
       if (response.ok) {
         setUser(data.user);
-        router.push('/dashboard');
+        // Use window.location for more reliable navigation
+        window.location.href = '/dashboard';
         return { success: true };
       } else {
         return { success: false, error: data.error };

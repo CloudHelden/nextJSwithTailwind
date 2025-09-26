@@ -1,15 +1,15 @@
-import bcrypt from 'bcryptjs';
+import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
 const JWT_EXPIRE = '7d';
 
 export async function hashPassword(password) {
-  return await bcrypt.hash(password, 12);
+  return await bcryptjs.hash(password, 12);
 }
 
 export async function verifyPassword(password, hashedPassword) {
-  return await bcrypt.compare(password, hashedPassword);
+  return await bcryptjs.compare(password, hashedPassword);
 }
 
 export function createToken(payload) {

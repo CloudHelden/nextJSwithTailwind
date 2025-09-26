@@ -16,10 +16,17 @@ export default function LoginPage() {
     setError('');
     setLoading(true);
 
-    const result = await login(email, password);
+    try {
+      const result = await login(email, password);
 
-    if (!result.success) {
-      setError(result.error);
+      if (!result.success) {
+        setError(result.error);
+        setLoading(false);
+      }
+      // If successful, the AuthContext will handle the redirect
+    } catch (err) {
+      console.error('Login form error:', err);
+      setError('Ein Fehler ist aufgetreten');
       setLoading(false);
     }
   };
