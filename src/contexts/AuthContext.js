@@ -11,13 +11,8 @@ export function AuthProvider({ children }) {
   const router = useRouter();
 
   useEffect(() => {
-    // Only check auth if not on login/register pages
-    const path = window.location.pathname;
-    if (!path.includes('/login') && !path.includes('/register')) {
-      checkAuth();
-    } else {
-      setLoading(false);
-    }
+    // Always check auth on mount to get current user
+    checkAuth();
   }, []);
 
   const checkAuth = async () => {
