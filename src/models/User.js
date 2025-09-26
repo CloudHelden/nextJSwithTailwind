@@ -25,6 +25,12 @@ const userSchema = new mongoose.Schema({
         select: false  // Passwort wird standardmäßig nicht zurückgegeben
     },
 
+    // Profilbild als Base64 String
+    profilePicture: {
+        type: String,  // Base64 encoded image
+        default: null
+    },
+
     // Optionale Felder
     alter: {
         type: Number,

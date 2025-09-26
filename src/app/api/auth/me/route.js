@@ -41,6 +41,7 @@ export async function GET() {
         name: user.name,
         email: user.email,
         registriertAm: user.registriertAm,
+        profilePicture: user.profilePicture,
       },
     });
   } catch (error) {

@@ -1,9 +1,31 @@
 'use client';
 
 import { useAuth } from '@/contexts/AuthContext';
+import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
 
 export default function DashboardPage() {
   const { user, loading, logout } = useAuth();
+  const router = useRouter();
+  const [profilePicture, setProfilePicture] = useState(null);
+
+  useEffect(() => {
+    if (user) {
+      fetchProfilePicture();
+    }
+  }, [user]);
+
+  const fetchProfilePicture = async () => {
+    try {
+      const response = await fetch('/api/profile');
+      if (response.ok) {
+        const data = await response.json();
+        setProfilePicture(data.user.profilePicture);
+      }
+    } catch (error) {
+      console.error('Error fetching profile picture:', error);
+    }
+  };
 
   if (loading) {
     return (
@@ -26,9 +48,23 @@ export default function DashboardPage() {
               </h1>
             </div>
             <div className="flex items-center space-x-4">
+              {profilePicture && (
+                <img
+                  src={profilePicture}
+                  alt="Profile"
+                  className="w-10 h-10 rounded-full object-cover cursor-pointer hover:ring-2 hover:ring-blue-500"
+                  onClick={() => router.push('/profile')}
+                />
+              )}
               <span className="text-sm text-gray-700 dark:text-gray-300">
                 Willkommen, {user.name}!
               </span>
+              <button
+                onClick={() => router.push('/profile')}
+                className="text-sm bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition-colors"
+              >
+                Profil
+              </button>
               <button
                 onClick={logout}
                 className="text-sm bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md transition-colors"
