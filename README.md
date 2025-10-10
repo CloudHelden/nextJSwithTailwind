@@ -2,8 +2,23 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+Install the dependencies:
+```bash
+npm install 
+```
+create .env File with the following content:
+```
+MONGODB_URI = "mongodb://admin:secretpassword@localhost:27017/mein-blog?authSource=admin"
+JWT_SECRET=your-secret-key-change-in-production
+NODE_ENV=development
+```
 
+start local mongo DB stack
+```bash
+docker compose up -d
+```
+
+Run the development server:
 ```bash
 npm run dev
 # or
