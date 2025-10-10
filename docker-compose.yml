@@ -1,6 +1,22 @@
-version: '3.8'
-
 services:
+  mein-blog:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    #image: mein-blog:latest
+    container_name: mein-nginx
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      MONGODB_URI: mongodb://admin:secretpassword@mongodb:27017/mein-blog
+      # Optional: Other environment variables
+      # BLOG_TITLE: "My Awesome Blog"
+      # BLOG_ADMIN_EMAIL: "
+
+
   mongodb:
     image: mongo:7.0
     container_name: mein-blog-mongodb
